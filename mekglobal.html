@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html class="dark" lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MEK GLOBAL | Güçlü Operasyon. Net Süreç.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "error": "#ffb4ab","inverse-primary": "#395ca3","on-tertiary-fixed-variant": "#42474e",
+          "secondary-fixed": "#e0e3e8","on-tertiary-container": "#b6bbc3","on-background": "#e5e2e1",
+          "background": "#131313","on-error": "#690005","surface-dim": "#131313","surface-bright": "#3a3939",
+          "surface": "#131313","secondary-fixed-dim": "#c4c7cc","primary-fixed-dim": "#afc6ff",
+          "tertiary-fixed-dim": "#c2c7cf","on-tertiary-fixed": "#171c22","on-error-container": "#ffdad6",
+          "tertiary": "#c2c7cf","surface-container-highest": "#353534","outline": "#8e909c",
+          "surface-variant": "#353534","on-tertiary": "#2c3138","surface-container": "#201f1f",
+          "tertiary-fixed": "#dee3ec","secondary-container": "#46494e","on-secondary-fixed": "#181c20",
+          "on-secondary-fixed-variant": "#43474b","surface-container-lowest": "#0e0e0e",
+          "surface-container-low": "#1c1b1b","on-primary": "#002d6c","inverse-on-surface": "#313030",
+          "error-container": "#93000a","outline-variant": "#434751","tertiary-container": "#464b52",
+          "secondary": "#c4c7cc","primary-container": "#21488e","surface-container-high": "#2a2a2a",
+          "on-surface-variant": "#c4c6d2","primary-fixed": "#d9e2ff","on-primary-fixed": "#001943",
+          "on-secondary": "#2d3135","on-primary-container": "#9cbaff","on-surface": "#e5e2e1",
+          "surface-tint": "#afc6ff","on-secondary-container": "#b5b9bd","on-primary-fixed-variant": "#1c448a",
+          "primary": "#afc6ff","inverse-surface": "#e5e2e1"
+        },
+        borderRadius: { "DEFAULT": "0.125rem","lg": "0.25rem","xl": "0.5rem","full": "0.75rem" },
+        fontFamily: { "headline": ["Space Grotesk"],"body": ["Inter"],"label": ["Inter"] }
+      }
+    }
+  }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background-color: #131313; color: #e5e2e1; margin: 0; }
+  .font-headline { font-family: 'Space Grotesk', sans-serif; }
+  .glass-nav { background: rgba(19,19,19,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .metallic-gradient { background: linear-gradient(135deg, #afc6ff 0%, #21488e 100%); }
+  .page { display: none; }
+  .page.active { display: block; }
+  .nav-link { cursor: pointer; transition: color 0.2s; }
+  .nav-link.active { color: #afc6ff !important; font-weight: 700; border-bottom: 2px solid #afc6ff; padding-bottom: 2px; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-family: 'Material Symbols Outlined'; font-style: normal; display: inline-block; }
+
+  /* Animations */
+  @keyframes pulse { 50% { opacity: .5; } }
+  .animate-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  .page.active > * { animation: fadeIn 0.4s ease forwards; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0e0e0e; }
+  ::-webkit-scrollbar-thumb { background: #21488e; border-radius: 2px; }
+
+  /* Form inputs reset */
+  input, textarea, select { background-color: transparent; border: none; outline: none; color: #e5e2e1; font-family: 'Inter', sans-serif; }
+  input::placeholder, textarea::placeholder { color: #434751; }
+
+  /* Hover utilities */
+  .hover-bright:hover { filter: brightness(1.1); }
+  .hover-scale:hover { transform: scale(1.05); }
+  .hover-border:hover { border-color: rgba(175,198,255,0.4); }
+
+  /* Card hover */
+  .service-card:hover .service-desc { opacity: 1; transform: translateY(0); }
+  .service-card:hover .card-img { opacity: 0.6; }
+  .service-card:hover { border-color: rgba(175,198,255,0.4); }
+  .service-desc { opacity: 0; transform: translateY(1rem); transition: all 0.3s ease; }
+  .card-img { opacity: 0.4; transition: opacity 0.3s ease; }
+
+  /* Group hover for icon */
+  .value-card:hover .value-icon { transform: scale(1.1); }
+  .value-icon { transition: transform 0.3s ease; }
+
+  /* Hub card */
+  .hub-card:hover .hub-img { transform: scale(1.1); }
+  .hub-img { transition: transform 0.7s ease; }
+
+  /* Corridor */
+  .corridor-row:hover { background-color: #2a2a2a; }
+  .corridor-row:hover .corridor-arrow { transform: translateX(0.5rem); }
+  .corridor-arrow { transition: transform 0.2s ease; }
+
+  /* Contact channel hover */
+  .channel-link:hover { color: #afc6ff; }
+</style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary">
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav class="fixed top-0 w-full z-50 glass-nav flex justify-between items-center px-8 py-4">
+  <div class="text-xl font-bold tracking-tighter text-white font-headline uppercase cursor-pointer" onclick="showPage('home')">
+    MEK GLOBAL
+  </div>
+  <div class="hidden md:flex items-center gap-8 font-headline tracking-tight text-sm">
+    <a class="nav-link text-white/70 hover:text-white" onclick="showPage('home')" id="nav-home">Ana Sayfa</a>
+    <a class="nav-link text-white/70 hover:text-white" onclick="showPage('about')" id="nav-about">Hakkımızda</a>
+    <a class="nav-link text-white/70 hover:text-white" onclick="showPage('network')" id="nav-network">Global Ağ</a>
+    <a class="nav-link text-white/70 hover:text-white" onclick="showPage('services')" id="nav-services">Hizmetler</a>
+    <a class="nav-link text-white/70 hover:text-white" onclick="showPage('contact')" id="nav-contact">İletişim</a>
+  </div>
+  <button onclick="showPage('contact')" class="metallic-gradient text-on-primary px-6 py-2.5 font-headline font-bold text-sm uppercase tracking-wider transition-all hover-bright" style="border-radius:2px">
+    Teklif Al
+  </button>
+</nav>
+
+<!-- WhatsApp FAB (global) -->
+<a href="https://wa.me/905318942853" target="_blank"
+   class="fixed bottom-8 right-8 flex items-center justify-center bg-[#21488e] text-white p-4 w-16 h-16 z-50 hover:scale-110 active:scale-95 transition-transform group shadow-[0_20px_40px_rgba(33,72,142,0.3)]"
+   style="border-radius:0.75rem">
+  <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">chat</span>
+  <span class="absolute right-20 bg-[#353534] px-4 py-2 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" style="border-radius:2px">WhatsApp Destek</span>
+</a>
+
+<!-- ═══════════════════════════ PAGE: HOME ═══════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center pt-20 overflow-hidden" style="min-height:1024px">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 z-10" style="background:linear-gradient(to right, #131313 0%, rgba(19,19,19,0.85) 50%, transparent 100%)"></div>
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwuF2_fUrLcBWBiZvjHJCcoBlQ2VHoH-FzGrnu64ei_2kcCwAICBsoaY_wAz2fG3Rjybr4Fv-srvQKLCpzJnfDbuxUbUsKUdpO2FPV0Xmt4-u9ipfGf6a5-Z5y2k3elL06sIQT6scek_NSafn8gYeBPtQ-vRgMjvirbIfB-VAc5peRNWrBvTCfiUeFpSNG-seI-4Ona8wpNw7HJs2Q5Sj2MVeaoUJpbqOnMrx9nV7dQLGgjNRwzHG6dWDU8RapXkEqPy3sUh-CJ_s" alt="Container ship"/>
+    </div>
+    <div class="relative z-20 max-w-7xl mx-auto px-8 w-full">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-6" style="background:rgba(33,72,142,0.3);border:1px solid rgba(175,198,255,0.2);border-radius:2px">
+          <span class="w-2 h-2 bg-primary animate-pulse" style="border-radius:50%"></span>
+          <span class="text-xs font-bold tracking-widest uppercase text-primary">Global Lojistik Çözümleri</span>
+        </div>
+        <h1 class="font-headline font-bold tracking-tighter text-on-surface mb-8" style="font-size:clamp(3rem,8vw,6rem);line-height:0.9">
+          Güçlü Operasyon.<br/>
+          <span class="text-primary">Net Süreç.</span><br/>
+          Zamanında Teslimat.
+        </h1>
+        <p class="text-xl text-on-surface-variant font-light leading-relaxed mb-10 max-w-xl">
+          Kıtalararası lojistik ağımız ve teknoloji odaklı operasyon yönetimimizle yükünüzü güvenle geleceğe taşıyoruz.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button onclick="showPage('contact')" class="metallic-gradient text-on-primary font-headline font-bold px-10 py-4 flex items-center gap-3 hover:shadow-[0_0_30px_rgba(175,198,255,0.3)] transition-all group" style="border-radius:2px">
+            <span>TEKLİF AL</span>
+            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </button>
+          <a href="https://wa.me/905318942853" target="_blank" class="font-headline font-bold px-10 py-4 transition-all hover:bg-surface-bright" style="background:#2a2a2a;border:1px solid rgba(67,71,81,0.3);border-radius:2px">
+            WHATSAPP İLE İLETİŞİM
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-12 left-8 z-20 hidden lg:block">
+      <div class="flex gap-12 border-l border-primary/30 pl-8">
+        <div><div class="text-3xl font-headline font-bold">120+</div><div class="text-xs uppercase tracking-widest text-on-surface-variant">Ülke Erişimi</div></div>
+        <div><div class="text-3xl font-headline font-bold">24/7</div><div class="text-xs uppercase tracking-widest text-on-surface-variant">Süreç Takibi</div></div>
+        <div><div class="text-3xl font-headline font-bold">15k+</div><div class="text-xs uppercase tracking-widest text-on-surface-variant">Yıllık Sevkiyat</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-32" style="background:#131313">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <div class="max-w-2xl">
+          <h2 class="text-sm font-bold tracking-[0.3em] uppercase text-primary mb-4">Hizmet Alanlarımız</h2>
+          <p class="font-headline font-bold leading-tight" style="font-size:clamp(1.75rem,4vw,3rem)">Uluslararası Taşımacılıkta Mühendislik Hassasiyeti</p>
+        </div>
+        <div class="text-on-surface-variant text-sm max-w-xs pb-2" style="border-bottom:1px solid rgba(67,71,81,0.3)">
+          Geniş hat kapasitesi ve operasyonel tecrübe ile her sektöre özel çözümler.
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Air -->
+        <div class="service-card relative overflow-hidden cursor-pointer" style="aspect-ratio:3/4;background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px;transition:border-color 0.3s">
+          <div class="card-img absolute inset-0"><img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx8Ahf7ejMjX5nSSXfG693J1_rjS5CqbnOxBjrBCu4EM4gOmnItUSyK5qjVeozV_wycjjJtl6qRcrYbL2vTFEEFKYMq7yLsq0koyTDfjnpznmbbAXCyU_xgN3erwl1XISlvfckYKDjeMFaqBTNcohUpo5x7YXqU_MJqg3G0-Upy4NR86xMzvPLEWi5OrdnOyS0zR7TGyCxaCQzH1z5GSneVoGGpBEg_z-USzIVoUIT1fz8R0BK1HnXtgpvPdqiNNy4_j_MMiKjYQ0" alt="Air Cargo"/></div>
+          <div class="absolute inset-0" style="background:linear-gradient(to top, #0e0e0e, transparent)"></div>
+          <div class="relative h-full flex flex-col justify-end p-8">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size:2.5rem">flight_takeoff</span>
+            <h3 class="text-2xl font-headline font-bold mb-2">Hava Kargo</h3>
+            <p class="service-desc text-sm text-on-surface-variant leading-relaxed">Zaman kritik sevkiyatlarınız için global havalimanı ağımızla en hızlı rota planlaması.</p>
+          </div>
+        </div>
+        <!-- Road -->
+        <div class="service-card relative overflow-hidden cursor-pointer" style="aspect-ratio:3/4;background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px;transition:border-color 0.3s">
+          <div class="card-img absolute inset-0"><img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjwvFgHKxaRv7dZ5fIWWVG1W4E3GcYLPIO2jDAh0m_-smaA4BXY2DoU0fQMbsaEOyAKfEoOLLKI_v63qeBZbW508SCzlizhj2Sm0By_kNNb6RG7XhYGPh8k5_c4aYS8AokKZWi9Vktr-ORVSnQsRWNVuXwpARVbgdLS3Fca2RDraraRMYhw7jnuS-3LPiK6Nv-aWrJ74mIbJ7iRO0pGsBjTqF634t_GLStjA0MjK9Ez8lwlU8m7w1_m66w0NEO3HLEt9SG2KRgbmk" alt="Road"/></div>
+          <div class="absolute inset-0" style="background:linear-gradient(to top, #0e0e0e, transparent)"></div>
+          <div class="relative h-full flex flex-col justify-end p-8">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size:2.5rem">local_shipping</span>
+            <h3 class="text-2xl font-headline font-bold mb-2">Kara Taşımacılığı</h3>
+            <p class="service-desc text-sm text-on-surface-variant leading-relaxed">Türkiye, Avrupa ve Ortadoğu hatlarında güvenli, tarifeli ve parsiyel taşımacılık çözümleri.</p>
+          </div>
+        </div>
+        <!-- Express -->
+        <div class="service-card relative overflow-hidden cursor-pointer" style="aspect-ratio:3/4;background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px;transition:border-color 0.3s">
+          <div class="card-img absolute inset-0"><img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjgiBOVEROKXOiDN8PEW_o_nKSnNCyK0JwBNZ5Num16oW4iRy-GLUHPDS69_DWRv3rdFI0rIUne7oeflPKZkKTSCPA1-9QiQve88lZDTjsZINvcd-nbvGqVhK36l93evByeSIYBrGXlaBBHIusVSk3eBdZVFg0NJ2qsCIohTzxyc5GV52Pw1GN9km8aPYqy48uQtqoNqKKQi4O99mLdGQuR28fIRi8UKNxf658vO4T3TTa5cRZUyrpjHIC9tt3QWm8jsCZn_oCl2A" alt="Express"/></div>
+          <div class="absolute inset-0" style="background:linear-gradient(to top, #0e0e0e, transparent)"></div>
+          <div class="relative h-full flex flex-col justify-end p-8">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size:2.5rem">bolt</span>
+            <h3 class="text-2xl font-headline font-bold mb-2">Ekspres Taşıma</h3>
+            <p class="service-desc text-sm text-on-surface-variant leading-relaxed">Acil doküman ve paketleriniz için kapıdan kapıya, en kısa sürede teslimat garantisi.</p>
+          </div>
+        </div>
+        <!-- Sea -->
+        <div class="service-card relative overflow-hidden cursor-pointer" style="aspect-ratio:3/4;background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px;transition:border-color 0.3s">
+          <div class="card-img absolute inset-0"><img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwuF2_fUrLcBWBiZvjHJCcoBlQ2VHoH-FzGrnu64ei_2kcCwAICBsoaY_wAz2fG3Rjybr4Fv-srvQKLCpzJnfDbuxUbUsKUdpO2FPV0Xmt4-u9ipfGf6a5-Z5y2k3elL06sIQT6scek_NSafn8gYeBPtQ-vRgMjvirbIfB-VAc5peRNWrBvTCfiUeFpSNG-seI-4Ona8wpNw7HJs2Q5Sj2MVeaoUJpbqOnMrx9nV7dQLGgjNRwzHG6dWDU8RapXkEqPy3sUh-CJ_s" alt="Sea"/></div>
+          <div class="absolute inset-0" style="background:linear-gradient(to top, #0e0e0e, transparent)"></div>
+          <div class="relative h-full flex flex-col justify-end p-8">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size:2.5rem">directions_boat</span>
+            <h3 class="text-2xl font-headline font-bold mb-2">Deniz Taşımacılığı</h3>
+            <p class="service-desc text-sm text-on-surface-variant leading-relaxed">Geniş konteyner hattı ağımızla dünya limanları arasında güvenli ve ekonomik denizyolu taşımacılığı.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why MEK Section -->
+  <section class="py-32 overflow-hidden" style="background:#0e0e0e">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4 flex flex-col justify-center">
+          <h2 class="font-headline font-bold mb-8 leading-tight" style="font-size:clamp(1.75rem,4vw,3rem)">Neden MEK GLOBAL?</h2>
+          <p class="text-on-surface-variant text-lg font-light leading-relaxed mb-8">
+            Operasyonel mükemmelliği bir seçenek değil, standart olarak sunuyoruz.
+          </p>
+          <div class="h-1 w-20 bg-primary mb-8"></div>
+          <button onclick="showPage('about')" class="text-primary font-headline font-bold tracking-tight hover:underline text-left">Hakkımızda Daha Fazla →</button>
+        </div>
+        <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="value-card p-10 transition-colors" style="background:#131313;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+            <div class="value-icon w-12 h-12 flex items-center justify-center mb-6" style="background:rgba(33,72,142,0.2);border-radius:2px">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">analytics</span>
+            </div>
+            <h4 class="text-xl font-headline font-bold mb-3">Planlı Operasyon Yönetimi</h4>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Her sevkiyat için optimize edilmiş rotalar ve risk analizleri.</p>
+          </div>
+          <div class="value-card p-10 transition-colors" style="background:#131313;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+            <div class="value-icon w-12 h-12 flex items-center justify-center mb-6" style="background:rgba(33,72,142,0.2);border-radius:2px">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">language</span>
+            </div>
+            <h4 class="text-xl font-headline font-bold mb-3">Global Lojistik Ağı</h4>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Dünyanın dört bir yanındaki güçlü partner ağımızla sınırları ortadan kaldırıyoruz.</p>
+          </div>
+          <div class="value-card p-10 transition-colors" style="background:#131313;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+            <div class="value-icon w-12 h-12 flex items-center justify-center mb-6" style="background:rgba(33,72,142,0.2);border-radius:2px">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">monitor_heart</span>
+            </div>
+            <h4 class="text-xl font-headline font-bold mb-3">7/24 Süreç Takibi</h4>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Dijital entegrasyonlarımızla anlık veri akışı sağlıyoruz.</p>
+          </div>
+          <div class="value-card p-10 transition-colors" style="background:#131313;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+            <div class="value-icon w-12 h-12 flex items-center justify-center mb-6" style="background:rgba(33,72,142,0.2);border-radius:2px">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">visibility</span>
+            </div>
+            <h4 class="text-xl font-headline font-bold mb-3">Şeffaf İş Akışı</h4>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Maliyetten operasyon adımlarına kadar tam dürüstlük ve raporlanabilir süreç yönetimi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="relative overflow-hidden" style="height:600px;background:#0e0e0e">
+    <div class="absolute inset-0 z-0" style="opacity:0.4">
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv7HjDqEgWHayz40XRrvrRBtyfoT2Mkz1yKvs5bahzvBVqu5HyXAKCKub9IQSsVzkjaJlYh1sdPSLbtByJT762rvTE_846O49QN47y7QhSIvTMVdQIt5-RLYXotMpl240PnGTMU9i8LNgg_DSA2pI9dVOGb4XaFnXX-Wo5umv0G06MGJipncStzs8lKlIPD6jlopHrJZAuCDNVuoBH_OHFqPAJJqSE4cxbXlg3sXGLC1fzt_U9U2Qc-WJJoH2sEfkO6q7M_3imc0I" alt="World Map"/>
+    </div>
+    <div class="absolute inset-0 z-10 pointer-events-none" style="background:linear-gradient(to bottom, #0e0e0e, transparent 30%, transparent 70%, #0e0e0e)"></div>
+    <div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+      <div class="pointer-events-auto p-8 max-w-sm" style="background:rgba(19,19,19,0.8);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.05);border-radius:2px">
+        <h3 class="text-2xl font-headline font-bold mb-4">Global Merkezimiz: Bursa</h3>
+        <p class="text-sm text-on-surface-variant mb-6">Doğu ve Batı arasındaki ticaretin tam merkezinde operasyonlarımızı yönetiyoruz.</p>
+        <div class="flex items-center gap-3 text-primary text-sm font-bold">
+          <span class="w-2 h-2 bg-primary animate-pulse" style="border-radius:50%"></span>
+          <span>AKTİF ROTA: 1,420+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 relative overflow-hidden">
+    <div class="absolute inset-0" style="background:#21488e;opacity:0.2"></div>
+    <div class="max-w-7xl mx-auto px-8 relative z-10 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-headline font-bold tracking-tighter mb-8 leading-tight" style="font-size:clamp(2.5rem,7vw,4.5rem)">
+          Lojistik süreçlerinizi<br/><span class="text-primary">kontrol altına alın.</span>
+        </h2>
+        <p class="text-xl text-on-surface-variant mb-12 max-w-2xl mx-auto">
+          Global ticaretin hızına yetişmek için profesyonel bir çözüm ortağına ihtiyacınız var.
+        </p>
+        <button onclick="showPage('contact')" class="bg-primary text-on-primary font-headline font-black px-16 py-6 text-lg uppercase tracking-widest hover:brightness-110 transition-all" style="border-radius:2px;box-shadow:0 20px 50px rgba(175,198,255,0.2)">
+          Teklif Al
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0e0e0e;border-top:1px solid rgba(53,53,52,0.15)" class="pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto text-sm">
+      <div>
+        <div class="text-2xl font-black text-white mb-4 font-headline tracking-tighter">MEK GLOBAL</div>
+        <p class="text-white/60 leading-relaxed mb-6">Uluslararası taşımacılık ve lojistik danışmanlığında yeni nesil yaklaşımlar.</p>
+      </div>
+      <div>
+        <h4 class="text-primary font-bold uppercase tracking-widest mb-6">Hizmetlerimiz</h4>
+        <ul class="space-y-4 text-white/60">
+          <li><a href="#" class="hover:text-primary transition-colors">Hava Taşımacılığı</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Kara Taşımacılığı</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Deniz Taşımacılığı</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Gümrük Danışmanlığı</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-primary font-bold uppercase tracking-widest mb-6">İletişim</h4>
+        <ul class="space-y-4 text-white/60">
+          <li>Telefon: +90 531 894 28 53</li>
+          <li>E-posta: emre@mekglo.com.tr</li>
+          <li>Yeşilova, İstanbul Cd Sit. No228 B Blok K:7 Ofis:54, Osmangazi/Bursa</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-primary font-bold uppercase tracking-widest mb-6">Kurumsal</h4>
+        <ul class="space-y-4 text-white/60">
+          <li><a href="#" class="hover:text-primary transition-colors">Hizmet Şartları</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Gizlilik Politikası</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">KVKK Aydınlatma</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-12 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4" style="border-top:1px solid rgba(255,255,255,0.05)">
+      <p class="text-white/40 text-xs uppercase tracking-widest">© 2024 MEK GLOBAL. Tüm Hakları Saklıdır.</p>
+      <span class="text-white/20 uppercase tracking-widest" style="font-size:10px">Designed for Performance</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════ PAGE: ABOUT ═══════════════════════════ -->
+<div id="page-about" class="page">
+
+  <!-- Hero -->
+  <section class="relative flex items-center overflow-hidden" style="height:716px">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover" style="opacity:0.4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF9x0clVr-Vu0KZFvscEzE_7enOQRhfP2jyIaJncbLG7IavC-BYjeA5Fi6zXEL00LygpFYMwdTpu0kERLimGYTEbD5yFAzTalQpnvsam-ROP7l95UCUTZTCwXV_9B57qPEVnYh2k46z2JufsdpAdtl2ESzLQilaEBaRjIlH1pnRiv8whOjvmDei-T8zO0cwflZCwj41tu_ghIpbCr1cVeV3iIilEf4nA-D9G4jAqgJb1clfi0sUyGk0KR2VJOls93STb8ptlk8Gb4" alt="Ship"/>
+      <div class="absolute inset-0" style="background:linear-gradient(to right, #0e0e0e 40%, rgba(14,14,14,0.6) 70%, transparent)"></div>
+    </div>
+    <div class="relative z-10 px-12 max-w-7xl mx-auto w-full pt-20">
+      <span class="text-primary text-xs tracking-[0.2em] uppercase font-bold block mb-4 font-label">The Architect of Motion</span>
+      <h1 class="font-black font-headline tracking-tighter leading-none mb-6" style="font-size:clamp(3rem,8vw,6rem)">
+        Küresel Hareketin <br><span class="text-primary">Mimarıyız.</span>
+      </h1>
+      <p class="max-w-2xl text-lg text-on-surface-variant leading-relaxed font-light">
+        MEK GLOBAL olarak, lojistiği yüksek mühendislik disiplini ve dijital hassasiyetle yönetilen bir sanat olarak görüyoruz.
+      </p>
+    </div>
+  </section>
+
+  <!-- Who We Are -->
+  <section class="py-24 px-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
+      <div class="md:col-span-7">
+        <h2 class="text-4xl font-bold font-headline tracking-tighter mb-8">Biz Kimiz?</h2>
+        <div class="space-y-6 text-on-surface-variant text-lg leading-relaxed">
+          <p>MEK GLOBAL, uluslararası ticaretin karmaşık ağlarını basitleştirmek ve operasyonel mükemmelliği her konteynere taşımak amacıyla kuruldu. Köklü geçmişimizden aldığımız güçle, bugün dünyanın her noktasına ulaşan entegre bir lojistik ağı yönetiyoruz.</p>
+          <p>Geleneksel yöntemlerin ötesine geçerek, teknoloji odaklı çözümlerimizle tedarik zinciri yönetimini yeniden tanımlıyoruz. Bizim için her yük bir emanet, her rota bir stratejik hamledir.</p>
+        </div>
+      </div>
+      <div class="md:col-span-5 relative">
+        <div class="relative overflow-hidden" style="aspect-ratio:1;border-radius:2px;background:#353534">
+          <img class="w-full h-full object-cover" style="filter:grayscale(100%);transition:filter 0.7s" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(100%)'" src="https://lh3.googleusercontent.com/p/AF1QipMxAI0Qj5K2Uum01HRudHLIEh-O05mBy3YPx9X0=s1360-w1360-h1020" alt="Team"/>
+        </div>
+        <div class="absolute p-8" style="bottom:-1.5rem;left:-1.5rem;background:#21488e;border-radius:2px;box-shadow:0 25px 50px rgba(0,0,0,0.25)">
+          <div class="text-4xl font-black font-headline text-primary">15+</div>
+          <div class="text-sm font-label uppercase tracking-widest" style="color:#9cbaff;opacity:0.8">Yıllık Deneyim</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="py-24 px-12 max-w-7xl mx-auto">
+    <h2 class="text-4xl font-bold font-headline tracking-tighter mb-16 text-center">Neden Biz?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-10 flex flex-col" style="background:#201f1f;border-bottom:4px solid #afc6ff">
+        <span class="material-symbols-outlined text-primary mb-6" style="font-size:2.5rem">verified_user</span>
+        <h3 class="text-2xl font-bold font-headline mb-4">Mutlak Güven</h3>
+        <p class="text-on-surface-variant leading-relaxed">Şeffaf iş süreçlerimiz ve %100 sigortalı taşımacılık anlayışımızla riskleri sıfıra indiriyoruz.</p>
+      </div>
+      <div class="p-10 flex flex-col transition-colors" style="background:#1c1b1b">
+        <span class="material-symbols-outlined text-primary mb-6" style="font-size:2.5rem">bolt</span>
+        <h3 class="text-2xl font-bold font-headline mb-4">Operasyonel Hız</h3>
+        <p class="text-on-surface-variant leading-relaxed">Zamanın en değerli yük olduğunun bilincindeyiz. En hızlı rotaları en optimize maliyetlerle sunuyoruz.</p>
+      </div>
+      <div class="p-10 flex flex-col" style="background:#2a2a2a;border-top:4px solid #21488e">
+        <span class="material-symbols-outlined text-primary mb-6" style="font-size:2.5rem">monitoring</span>
+        <h3 class="text-2xl font-bold font-headline mb-4">Teknolojik Takip</h3>
+        <p class="text-on-surface-variant leading-relaxed">Anlık izleme ve gelişmiş raporlama sistemlerimizle yükünüzün her anından haberdar olun.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="py-24" style="border-top:1px solid rgba(67,71,81,0.1)">
+    <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2" style="gap:1px;background:rgba(67,71,81,0.2)">
+      <div class="py-20 pr-12" style="background:#131313">
+        <h3 class="text-primary font-label uppercase tracking-widest text-xs mb-4">Geleceğe Bakış</h3>
+        <h2 class="text-5xl font-black font-headline tracking-tighter mb-8 italic">Vizyon</h2>
+        <p class="text-xl text-on-surface leading-relaxed font-light">Lojistik dünyasında sadece bir taşıyıcı değil, global ticaretin yönünü tayin eden teknolojik bir lider olmak.</p>
+      </div>
+      <div class="py-20 pl-12" style="background:#131313">
+        <h3 class="text-primary font-label uppercase tracking-widest text-xs mb-4">Görevimiz</h3>
+        <h2 class="text-5xl font-black font-headline tracking-tighter mb-8 italic">Misyon</h2>
+        <p class="text-xl text-on-surface leading-relaxed font-light">Müşterilerimizin sınır ötesi hedeflerine ulaşmalarını sağlayacak en güvenilir, şeffaf ve yüksek verimli lojistik çözümlerini kesintisiz sunmak.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0e0e0e;border-top:1px solid rgba(53,53,52,0.15)" class="pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto text-sm">
+      <div><div class="text-2xl font-black text-white mb-4 font-headline">MEK GLOBAL</div><p class="text-white/60 leading-relaxed">Küresel lojistikte hassasiyet ve güvenin buluştuğu nokta.</p></div>
+      <div><h4 class="text-primary font-bold mb-2">İletişim</h4><p class="text-white/60">Telefon: +90 531 894 28 53</p><p class="text-white/60">E-posta: emre@mekglo.com.tr</p></div>
+      <div><h4 class="text-primary font-bold mb-2">Kurumsal</h4><a href="#" class="block text-white/60 hover:text-primary">Hizmet Şartları</a><a href="#" class="block text-white/60 hover:text-primary">Gizlilik Politikası</a></div>
+      <div><h4 class="text-primary font-bold mb-2">Bülten</h4>
+        <div class="flex p-1" style="background:#2a2a2a;border-radius:2px">
+          <input class="bg-transparent text-sm w-full px-3 py-2" placeholder="E-posta adresi" type="text"/>
+          <button class="bg-primary text-on-primary px-4 py-2 text-xs font-bold uppercase tracking-widest">Kayıt</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-16 text-center text-white/40 text-xs">© 2024 MEK GLOBAL. Tüm Hakları Saklıdır.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════ PAGE: NETWORK ═══════════════════════════ -->
+<div id="page-network" class="page">
+
+  <!-- Hero -->
+  <section class="relative flex flex-col justify-center px-12 py-20 overflow-hidden" style="min-height:819px">
+    <div class="absolute inset-0 z-0" style="opacity:0.4">
+      <div class="absolute inset-0" style="background:linear-gradient(to bottom, #131313, transparent, #131313)"></div>
+      <img class="w-full h-full object-cover" style="filter:grayscale(100%) brightness(50%)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx8F1sBm-8HYZfIDz08jYTL3QS3WFcpgH2ifAWFTLwIvcTbMK-cnwiN_CsxSIM_WRJPQT5oo8xK6VnXFW4_7nE9HbFz-zXvs5T6XconOy4WDojuWdIilg6L7eosy0lH3ybCtIRA-6MzR_9HzdAb23dcc4_ZSi6XFPXb1Pi38QuaEGFujek1dyOY1L7DAvfNVdD3g0VVmUuxuZloidKZkaz6bQUA4fezMFP-ZwPDFXbDNGDx9Ugsa41bRnoQr3U0zQ8qibNychvTRQ" alt="World Map"/>
+    </div>
+    <div class="relative z-10 max-w-5xl" style="padding-top:6rem">
+      <div class="inline-flex items-center gap-3 mb-6 px-4 py-1.5" style="background:#2a2a2a;border-left:2px solid #afc6ff;border-radius:2px">
+        <span class="text-primary font-label text-xs tracking-[0.2em] uppercase font-bold">Operasyonel Varlık</span>
+        <div class="w-2 h-2 bg-primary animate-pulse" style="border-radius:50%"></div>
+      </div>
+      <h1 class="font-headline font-bold text-on-surface tracking-tighter mb-8" style="font-size:clamp(3rem,8vw,6rem);line-height:1.05">
+        Kıtalararası <br/><span class="text-primary">Stratejik Ağ</span>
+      </h1>
+      <p class="text-xl text-on-surface-variant max-w-2xl leading-relaxed font-light mb-12">
+        Dünya ticaretinin ana arterlerini, ileri teknoloji altyapımız ve kesintisiz lojistik koridorlarımızla birbirine bağlıyoruz.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <button class="bg-primary text-on-primary px-8 py-4 font-headline font-bold tracking-tight text-lg transition-all active:scale-95" style="border-radius:2px">Ağı İnceleyin</button>
+        <button onclick="showPage('services')" class="text-on-surface px-8 py-4 font-headline font-bold tracking-tight text-lg transition-colors hover:bg-surface-container-high" style="border:1px solid #434751;border-radius:2px">Sektör Çözümleri</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-24 px-12" style="background:#0e0e0e;border-top:1px solid rgba(67,71,81,0.1);border-bottom:1px solid rgba(67,71,81,0.1)">
+    <div class="grid grid-cols-1 md:grid-cols-4" style="gap:1px;background:rgba(67,71,81,0.2)">
+      <div class="p-10 flex flex-col gap-4" style="background:#131313">
+        <span class="material-symbols-outlined text-primary" style="font-size:2.5rem">public</span>
+        <div><div class="text-4xl font-headline font-bold">120+</div><div class="text-sm font-label uppercase tracking-widest text-on-surface-variant mt-2">Ülke Erişimi</div></div>
+      </div>
+      <div class="p-10 flex flex-col gap-4" style="background:#131313">
+        <span class="material-symbols-outlined text-primary" style="font-size:2.5rem">handshake</span>
+        <div><div class="text-4xl font-headline font-bold">2500+</div><div class="text-sm font-label uppercase tracking-widest text-on-surface-variant mt-2">Lojistik Partneri</div></div>
+      </div>
+      <div class="p-10 flex flex-col gap-4" style="background:#131313">
+        <span class="material-symbols-outlined text-primary" style="font-size:2.5rem">history_edu</span>
+        <div><div class="text-4xl font-headline font-bold">15+ Yıl</div><div class="text-sm font-label uppercase tracking-widest text-on-surface-variant mt-2">Operasyonel Deneyim</div></div>
+      </div>
+      <div class="p-10 flex flex-col gap-4" style="background:#131313">
+        <span class="material-symbols-outlined text-primary" style="font-size:2.5rem">hub</span>
+        <div><div class="text-4xl font-headline font-bold">45+</div><div class="text-sm font-label uppercase tracking-widest text-on-surface-variant mt-2">Stratejik Hub</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hubs -->
+  <section class="py-32 px-12">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+      <div class="max-w-2xl">
+        <h2 class="text-4xl font-headline font-bold mb-6">Global Operasyon Merkezleri</h2>
+        <p class="text-on-surface-variant leading-relaxed">Stratejik konumlandırılmış hub noktalarımız, en karmaşık tedarik zinciri ihtiyaçlarını karşılamak üzere optimize edilmiştir.</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="hub-card transition-all" style="background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+        <div class="overflow-hidden" style="aspect-ratio:4/3"><img class="hub-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy5DyzLCfEglOUsKOqFXrOboXULho4WAhtb5YgKTm1X8n2UyiImdWWRbzntdjhoRoddcQjQaR9-UE6E8z8-Zo54rx5b9JSFkMM8kBaDeL8pdM-kj0DonlarInm8RzbP_UTDAN844cR7jn0ZHE62BSykpKlzk1wIZhZJIC-UlwfonKhoqj5sgZcW9JB1lKmFiaaHD6Rc2BNS3ucCQKASEXs7oqvXiQeZIZRSh4kojetcKx7DdER1SFBL8R6N4U2RcwP3vuFrFFgIT8" alt="Istanbul"/></div>
+        <div class="p-8">
+          <h3 class="text-xl font-headline font-bold mb-2">Istanbul, TR</h3>
+          <p class="text-sm text-on-surface-variant mb-6">Avrasya Geçiş Koridoru Merkezi.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Transit Hub</span>
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Customs Clear</span>
+          </div>
+        </div>
+      </div>
+      <div class="hub-card transition-all" style="background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+        <div class="overflow-hidden" style="aspect-ratio:4/3"><img class="hub-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_pzTeRTd31Mifux1uPNOkg---6WTXJbA1aumi1RaAoLqLEF9spcII-ICeSNCAAdBcHWg6G2hMF8xbL11TYR1SOKQqrdGXsLjoNePf5zJ30osunS8-2m77uSKOdE_o2TZf_DzK9c5zavvfzMsAwD89brnr6Tbc2aXXn5NW4QZcG_BwGOudJHoIIOWhzfeZFtbfZTl4H163bPLRQ6N-I2CqffvJ6nxOyArI-7YcsUxga-4f9e-_dio_121aD9WeDFJ5j03AdRRI7yI" alt="Hamburg"/></div>
+        <div class="p-8">
+          <h3 class="text-xl font-headline font-bold mb-2">Hamburg, DE</h3>
+          <p class="text-sm text-on-surface-variant mb-6">Avrupa'nın Kuzey Kapısı.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Maritime</span>
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Rail Link</span>
+          </div>
+        </div>
+      </div>
+      <div class="hub-card transition-all" style="background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+        <div class="overflow-hidden" style="aspect-ratio:4/3"><img class="hub-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnHP_PqaU_quFFT1E1aRMJgYELy9KbCOUcjv4Nkk-CyLE_9OaOBbBHlvl032NfLIMIkoHhorXPR1VprdEMXfGSNPdkF8hHgY_TTiUP0S5WJAKgvHKfkqHrKEI8q9JgEdmGR1oiQ0Xk9lexoVcscl8_vAEYECB0aE66iklmomCG95jSPeTPLnKviZBccgRx8jrjIdQJVWC_SRZWGWHHkOzoxtcUDQfdiPJznAx8zmxprAgYegPEkCy54bpnf0b4W5iDfesvNSkHLuw" alt="Shanghai"/></div>
+        <div class="p-8">
+          <h3 class="text-xl font-headline font-bold mb-2">Shanghai, CN</h3>
+          <p class="text-sm text-on-surface-variant mb-6">Asya-Pasifik Lojistik Devi.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Express Cargo</span>
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Global Sort</span>
+          </div>
+        </div>
+      </div>
+      <div class="hub-card transition-all" style="background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+        <div class="overflow-hidden" style="aspect-ratio:4/3"><img class="hub-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW-Wp-IIB3iHaIReQum7TbjNwUkjMLE7kByOIKIERanmtsl3by4lHEBavUToIColqWBeQM8wrLrAGb4lOOPcTa-ra1aQxxhu335Wa2vGJvq9UDKTkoHOCjYm--nHAx342FUrb4mxpX0C5X2mYC-YZtbAFKAcv7Be0WpWUk9CcsSgXMVqgeeMp0eAQEPBdeZp4d4dpTHkO26atP3TG6fRKPApCgSZPuIuztMe9rWPWfOt5MA2ohwSm_O42YFkPHmKuOMt33Vn0qxpI" alt="Dubai"/></div>
+        <div class="p-8">
+          <h3 class="text-xl font-headline font-bold mb-2">Dubai, AE</h3>
+          <p class="text-sm text-on-surface-variant mb-6">Orta Doğu ve Afrika Bağlantı Noktası.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Air-Sea Cargo</span>
+            <span class="text-xs font-label uppercase px-2 py-1" style="background:#353534">Free Zone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Corridors -->
+  <section class="py-32 px-12" style="background:#1c1b1b">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16">
+        <h2 class="text-4xl font-headline font-bold mb-4">Operasyonel Koridorlar</h2>
+        <div class="w-24 h-1 bg-primary"></div>
+      </div>
+      <div class="space-y-4">
+        <div class="corridor-row flex flex-col md:flex-row items-center p-8 gap-8 transition-colors cursor-pointer" style="background:#201f1f;border-left:4px solid #afc6ff;border-radius:2px">
+          <div class="flex-shrink-0 p-4" style="background:#21488e;border-radius:2px"><span class="material-symbols-outlined text-primary text-3xl">trending_flat</span></div>
+          <div class="flex-grow">
+            <h4 class="text-xl font-headline font-bold">Türkiye - Avrupa Ekspres Hattı</h4>
+            <p class="text-on-surface-variant text-sm mt-1">Kapıdan kapıya 48-72 saat teslimat garantisi ile günlük düzenli seferler.</p>
+          </div>
+          <div class="flex gap-12 text-center">
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Kapasite</div><div class="text-lg font-headline font-bold text-primary">Yüksek</div></div>
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Sıklık</div><div class="text-lg font-headline font-bold text-primary">Günlük</div></div>
+          </div>
+          <span class="material-symbols-outlined text-on-surface-variant corridor-arrow">chevron_right</span>
+        </div>
+        <div class="corridor-row flex flex-col md:flex-row items-center p-8 gap-8 transition-colors cursor-pointer" style="background:#201f1f;border-left:4px solid #c4c7cc;border-radius:2px">
+          <div class="flex-shrink-0 p-4" style="background:#353534;border-radius:2px"><span class="material-symbols-outlined text-secondary text-3xl">south_east</span></div>
+          <div class="flex-grow">
+            <h4 class="text-xl font-headline font-bold">Orta Doğu Transit Koridoru</h4>
+            <p class="text-on-surface-variant text-sm mt-1">Körfez ülkelerine yönelik güvenli, izlenebilir ve multimodal taşıma çözümleri.</p>
+          </div>
+          <div class="flex gap-12 text-center">
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Kapasite</div><div class="text-lg font-headline font-bold text-secondary">Orta</div></div>
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Sıklık</div><div class="text-lg font-headline font-bold text-secondary">Haftalık 3</div></div>
+          </div>
+          <span class="material-symbols-outlined text-on-surface-variant corridor-arrow">chevron_right</span>
+        </div>
+        <div class="corridor-row flex flex-col md:flex-row items-center p-8 gap-8 transition-colors cursor-pointer" style="background:#201f1f;border-left:4px solid #434751;border-radius:2px">
+          <div class="flex-shrink-0 p-4" style="background:#353534;border-radius:2px"><span class="material-symbols-outlined text-on-surface-variant text-3xl">east</span></div>
+          <div class="flex-grow">
+            <h4 class="text-xl font-headline font-bold">İpek Yolu Demir Hattı</h4>
+            <p class="text-on-surface-variant text-sm mt-1">Uzak Doğu'dan Avrupa'ya demir yolu ile sürdürülebilir ve maliyet etkin sevkiyat.</p>
+          </div>
+          <div class="flex gap-12 text-center">
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Kapasite</div><div class="text-lg font-headline font-bold text-on-surface-variant">Toplu</div></div>
+            <div><div class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Sıklık</div><div class="text-lg font-headline font-bold text-on-surface-variant">Haftalık</div></div>
+          </div>
+          <span class="material-symbols-outlined text-on-surface-variant corridor-arrow">chevron_right</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0e0e0e;border-top:1px solid rgba(67,71,81,0.1)" class="py-20 px-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
+      <div class="md:col-span-2">
+        <div class="text-2xl font-headline font-bold tracking-tighter mb-8">MEK GLOBAL</div>
+        <p class="text-on-surface-variant max-w-md leading-relaxed">Dünyanın her noktasına profesyonel, güvenilir ve teknoloji odaklı lojistik çözümleri sunuyoruz.</p>
+      </div>
+      <div>
+        <h4 class="font-headline font-bold mb-6 uppercase tracking-widest text-sm">Hizmetler</h4>
+        <ul class="space-y-4 text-on-surface-variant text-sm">
+          <li><a class="hover:text-primary transition-colors" href="#">Karayolu Taşımacılığı</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Havayolu Taşımacılığı</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Denizyolu Taşımacılığı</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-headline font-bold mb-6 uppercase tracking-widest text-sm">İletişim</h4>
+        <ul class="space-y-4 text-on-surface-variant text-sm">
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-lg">mail</span>emre@mekglo.com.tr</li>
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-lg">call</span>+90 531 894 28 53</li>
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-lg">location_on</span>Bursa, Türkiye</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-20 pt-8 flex flex-col md:flex-row justify-between text-xs text-on-surface-variant uppercase tracking-widest max-w-7xl mx-auto" style="border-top:1px solid rgba(67,71,81,0.1)">
+      <div>© 2024 MEK GLOBAL. Tüm hakları saklıdır.</div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════ PAGE: SERVICES ═══════════════════════════ -->
+<div id="page-services" class="page">
+  <div class="min-h-screen pt-32 pb-20 px-4 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16" style="align-items:center">
+    <!-- Left Info -->
+    <div class="lg:col-span-5 flex flex-col justify-center">
+      <div class="mb-8 inline-flex items-center gap-2 px-4 py-1.5" style="background:#353534;border:1px solid rgba(67,71,81,0.15);border-radius:0.75rem">
+        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL' 1">speed</span>
+        <span class="text-xs font-bold uppercase tracking-widest font-label">Hızlı Yanıt Garantisi</span>
+      </div>
+      <h1 class="font-headline font-bold leading-none tracking-tighter mb-8" style="font-size:clamp(2.5rem,6vw,4rem)">
+        Global Hareketin <span class="text-primary italic">Mimarisi.</span>
+      </h1>
+      <p class="text-on-surface-variant text-lg leading-relaxed mb-10 font-light">
+        Lojistik ihtiyaçlarınızı teknik hassasiyetle planlıyoruz. Uzman ekibimiz en optimize rotayı ve fiyatlandırmayı <span class="text-on-surface font-bold">15 dakika içinde</span> size iletsin.
+      </p>
+      <div class="grid grid-cols-1 gap-6">
+        <div class="flex items-start gap-4 p-6 transition-colors" style="background:#1c1b1b;border-radius:2px">
+          <span class="material-symbols-outlined text-primary text-3xl">verified</span>
+          <div>
+            <h3 class="font-headline font-bold text-lg">Güvenli Taşımacılık</h3>
+            <p class="text-sm text-on-surface-variant">Tüm gönderileriniz global sigorta standartları ile korunmaktadır.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-6 transition-colors" style="background:#1c1b1b;border-radius:2px">
+          <span class="material-symbols-outlined text-primary text-3xl">map</span>
+          <div>
+            <h3 class="font-headline font-bold text-lg">Geniş Rota Ağı</h3>
+            <p class="text-sm text-on-surface-variant">6 kıtada stratejik liman ve terminal erişimi ile kesintisiz hizmet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form -->
+    <div class="lg:col-span-7">
+      <div class="p-8 md:p-12 relative overflow-hidden" style="background:#0e0e0e;border:1px solid rgba(67,71,81,0.1);border-radius:2px;box-shadow:0 25px 50px rgba(0,0,0,0.25)">
+        <div class="absolute top-0 right-0 w-32 h-32" style="background:rgba(175,198,255,0.05);filter:blur(48px);border-radius:50%"></div>
+        <div class="space-y-8 relative z-10">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">Ad Soyad</label>
+              <input class="w-full p-4 transition-all" style="background:#2a2a2a;border:none;border-bottom:2px solid #434751;border-radius:0;color:#e5e2e1" placeholder="Emre Yılmaz" type="text" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">Telefon</label>
+              <input class="w-full p-4 transition-all" style="background:#2a2a2a;border:none;border-bottom:2px solid #434751;border-radius:0;color:#e5e2e1" placeholder="+90 (___) ___ __ __" type="tel" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">Yük Ağırlığı (kg)</label>
+              <div class="relative">
+                <input class="w-full p-4 pr-12 transition-all" style="background:#2a2a2a;border:none;border-bottom:2px solid #434751;border-radius:0;color:#e5e2e1" placeholder="Örn: 2500" type="number" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+                <span class="absolute right-4 text-sm font-bold text-on-surface-variant" style="top:50%;transform:translateY(-50%)">KG</span>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">Gönderi Rotası</label>
+              <input class="w-full p-4 transition-all" style="background:#2a2a2a;border:none;border-bottom:2px solid #434751;border-radius:0;color:#e5e2e1" placeholder="İstanbul - Hamburg" type="text" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+            </div>
+          </div>
+          <div class="pt-6">
+            <button onclick="alert('Teklif talebiniz alındı! En kısa sürede sizinle iletişime geçeceğiz.')" class="w-full metallic-gradient text-on-primary font-black text-lg py-5 flex items-center justify-center gap-3 transition-all hover:brightness-105 active:scale-99" style="border-radius:2px;box-shadow:0 10px 30px rgba(175,198,255,0.2)">
+              Teklif Talebini Gönder
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <p class="text-center text-xs text-on-surface-variant mt-6">Gönder'e tıklayarak <a class="text-primary underline" href="#">Kullanım Şartlarımızı</a> kabul etmiş olursunuz.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 grid grid-cols-3 gap-4">
+        <div class="overflow-hidden" style="height:8rem;border-radius:2px;background:#201f1f"><img class="w-full h-full object-cover transition-all duration-700" style="filter:grayscale(100%);opacity:0.5" onmouseover="this.style.filter='none';this.style.opacity='1'" onmouseout="this.style.filter='grayscale(100%)';this.style.opacity='0.5'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBJI07xRENsnzMkbzpQqQ7rjxcAg88Lt3GmFERzljn7DO8npQozcaLUXc0O1uk4LUgPI-SKUSYtbWyB7ykTjXg_ggEg9x_txrVHd668clBmoXtR3GqlfPLGQIjGMlRbaqDyItXZOfvewxLAvJRaIAwOo3DEncpn3YmSr25TvjazA_NWLJ8GywTaTMAm2XfaWl6GEpQQElcnFDm8Bo2XYyAhxQ91zRtIbe2m_PgeKo9cXqa2ZZDAtpx65sxbS6uR3to6TET-m4ZgCE" alt=""/></div>
+        <div class="overflow-hidden" style="height:8rem;border-radius:2px;background:#201f1f"><img class="w-full h-full object-cover transition-all duration-700" style="filter:grayscale(100%);opacity:0.5" onmouseover="this.style.filter='none';this.style.opacity='1'" onmouseout="this.style.filter='grayscale(100%)';this.style.opacity='0.5'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVAaCcb9HcUCIlo-30IYtcg3Bcnv-W0PgZPx_Pt5BL_UatbtmF-JIGFmk6g-Gjgk9wDiFBaWRACzWGW6x9MQQG5mAjyOLfpvvG0wfPkEGPrUT1bAxdQsjUUaIqKyZ_zPxWDWTEnZWiukScUwyBr4WjEXQag0sCIp52WE9YznsuJ2wI6l9gPpn-noMhxGQXgBtLGagYT6Ae7No2Z7xeUi75-RQIsr9IhkxGJDMFjeM_FNe6mGUT09WiaUXqgNCGK9VV_Rh1X6j_rZM" alt=""/></div>
+        <div class="overflow-hidden" style="height:8rem;border-radius:2px;background:#201f1f"><img class="w-full h-full object-cover transition-all duration-700" style="filter:grayscale(100%);opacity:0.5" onmouseover="this.style.filter='none';this.style.opacity='1'" onmouseout="this.style.filter='grayscale(100%)';this.style.opacity='0.5'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPCe7NwCbVajI36N_TVLHITwI5iWzBeWxENzY-7AUJaANRNFGn6ITRYWTSM0FN79YyYe84oZITtLQlk_dducjYsL6Bs925q7roAOt0xqTBnYAS4qD6TzM0UZP5mfa-8TqL7erKMZQeypIg0zlZ01Vdxf6UWucBaBUSxxYoWFDN3jcH6PFxHQNZWECcPpXkeV42ihROydwEkSVAg7Q4jh6uR689LhtdJrEhMqpBCojsT5yWMTJ5vzBzACCOU1UM42GCFh8ypXMVQMY" alt=""/></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background:#0e0e0e;border-top:1px solid rgba(53,53,52,0.15)" class="pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto text-sm">
+      <div><div class="text-2xl font-black text-white mb-4 font-headline">MEK GLOBAL</div><p class="text-white/60">Dünya çapında güvenilir lojistik çözümleri.</p></div>
+      <div><h4 class="font-bold text-primary mb-4 uppercase">İletişim</h4><p class="text-white/60">+90 531 894 28 53</p><p class="text-white/60">emre@mekglo.com.tr</p></div>
+      <div><h4 class="font-bold text-primary mb-4 uppercase">Hizmetler</h4><p class="text-white/60">Deniz / Hava / Kara / Gümrük</p></div>
+      <div><h4 class="font-bold text-primary mb-4 uppercase">Yasal</h4><a href="#" class="block text-white/60 hover:text-primary">Hizmet Şartları</a><a href="#" class="block text-white/60 hover:text-primary">Gizlilik Politikası</a></div>
+    </div>
+    <div class="mt-16 text-center text-white/40 text-xs">© 2024 MEK GLOBAL. Tüm Hakları Saklıdır.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════ PAGE: CONTACT ═══════════════════════════ -->
+<div id="page-contact" class="page">
+  <main class="pt-24 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-16">
+      <span class="text-primary font-label text-xs tracking-[0.2em] uppercase font-bold">Global Lojistik Çözümleri</span>
+      <h1 class="font-headline font-bold tracking-tighter mt-4 mb-6" style="font-size:clamp(2.5rem,7vw,4.5rem);line-height:0.9">
+        STRATEJİK <span class="text-primary italic">İLETİŞİM</span>
+      </h1>
+      <p class="max-w-2xl text-on-surface-variant font-light text-lg">
+        Operasyonel mükemmellik için global ağımıza bağlanın. Teknik ekibimiz her türlü lojistik ihtiyacınız için hazır bekliyor.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8" style="align-items:stretch">
+      <!-- Left channels -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        <div class="p-8 flex flex-col justify-between transition-colors" style="background:#201f1f;border-radius:2px">
+          <h2 class="font-headline text-2xl font-bold mb-8">İletişim Kanalları</h2>
+          <div class="space-y-8">
+            <div class="flex items-start gap-4">
+              <span class="material-symbols-outlined text-primary p-3" style="background:rgba(33,72,142,0.3);border-radius:2px">call</span>
+              <div>
+                <p class="text-xs font-label text-on-surface-variant uppercase tracking-widest mb-1">Telefon</p>
+                <a class="text-xl font-bold channel-link transition-colors" href="tel:+905318942853">+90 531 894 28 53</a>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="material-symbols-outlined text-primary p-3" style="background:rgba(33,72,142,0.3);border-radius:2px">mail</span>
+              <div>
+                <p class="text-xs font-label text-on-surface-variant uppercase tracking-widest mb-1">E-posta</p>
+                <a class="text-xl font-bold channel-link transition-colors" href="mailto:emre@mekglo.com.tr">emre@mekglo.com.tr</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-8 relative overflow-hidden flex-1" style="background:#21488e;border-radius:2px;min-height:240px">
+          <div class="relative z-10">
+            <h3 class="font-headline text-2xl font-bold leading-tight mb-2">7/24 Teknik Destek</h3>
+            <p class="text-sm max-w-xs" style="color:#9cbaff;opacity:0.9">Uluslararası operasyonlarınız için kesintisiz erişim.</p>
+          </div>
+          <div class="absolute" style="bottom:-2.5rem;right:-2.5rem;opacity:0.2">
+            <span class="material-symbols-outlined" style="font-size:180px;font-variation-settings:'FILL' 1">public</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right form -->
+      <div class="lg:col-span-7">
+        <div class="p-8 md:p-12 h-full" style="background:#1c1b1b;border:1px solid rgba(67,71,81,0.1);border-radius:2px">
+          <form class="space-y-8" onsubmit="handleContactForm(event)">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="relative pt-4">
+                <label class="text-xs uppercase tracking-[0.2em] text-on-surface-variant font-bold">Ad Soyad</label>
+                <input class="w-full py-4 px-0 transition-colors" style="background:transparent;border:none;border-bottom:1px solid #434751;color:#e5e2e1" placeholder="John Doe" type="text" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+              </div>
+              <div class="relative pt-4">
+                <label class="text-xs uppercase tracking-[0.2em] text-on-surface-variant font-bold">E-posta Adresi</label>
+                <input class="w-full py-4 px-0 transition-colors" style="background:transparent;border:none;border-bottom:1px solid #434751;color:#e5e2e1" placeholder="email@example.com" type="email" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"/>
+              </div>
+            </div>
+            <div class="relative pt-4">
+              <label class="text-xs uppercase tracking-[0.2em] text-on-surface-variant font-bold">Mesajınız</label>
+              <textarea class="w-full py-4 px-0 transition-colors resize-none" style="background:transparent;border:none;border-bottom:1px solid #434751;color:#e5e2e1" placeholder="Projeniz hakkında detay verin..." rows="4" onfocus="this.style.borderBottomColor='#afc6ff'" onblur="this.style.borderBottomColor='#434751'"></textarea>
+            </div>
+            <div class="pt-4">
+              <button type="submit" class="bg-primary text-on-primary px-12 py-4 text-sm font-black tracking-[0.15em] uppercase flex items-center justify-center gap-3 hover:opacity-90 transition-all" style="border-radius:2px">
+                GÖNDER <span class="material-symbols-outlined text-sm">trending_flat</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <section class="mt-8 relative overflow-hidden" style="border-radius:2px">
+      <div class="relative w-full flex items-center justify-center overflow-hidden" style="height:500px;background:#0e0e0e">
+        <img class="w-full h-full object-cover" style="opacity:0.6;filter:grayscale(100%) brightness(50%)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv7HjDqEgWHayz40XRrvrRBtyfoT2Mkz1yKvs5bahzvBVqu5HyXAKCKub9IQSsVzkjaJlYh1sdPSLbtByJT762rvTE_846O49QN47y7QhSIvTMVdQIt5-RLYXotMpl240PnGTMU9i8LNgg_DSA2pI9dVOGb4XaFnXX-Wo5umv0G06MGJipncStzs8lKlIPD6jlopHrJZAuCDNVuoBH_OHFqPAJJqSE4cxbXlg3sXGLC1fzt_U9U2Qc-WJJoH2sEfkO6q7M_3imc0I" alt="Map"/>
+        <!-- Card -->
+        <div class="absolute p-6 max-w-sm" style="bottom:2rem;left:2rem;background:rgba(19,19,19,0.8);backdrop-filter:blur(12px);border:1px solid rgba(67,71,81,0.2);border-radius:2px">
+          <h4 class="font-headline font-bold text-primary mb-2 uppercase tracking-widest text-xs">Genel Merkez</h4>
+          <p class="text-sm leading-relaxed">
+            Lojistik Operasyon Merkezi<br/>
+            Yeşilova, İstanbul Cd Sit. No228 B Blok K:7 Ofis:54<br/>
+            16090 Osmangazi/Bursa, Türkiye
+          </p>
+          <div class="mt-4 flex gap-2 items-center">
+            <div class="w-2 h-2 bg-primary animate-pulse" style="border-radius:50%"></div>
+            <span class="text-xs font-label text-on-surface-variant uppercase tracking-tighter">Aktif Operasyon Birimi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background:#0e0e0e;border-top:1px solid rgba(53,53,52,0.15)" class="pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto text-sm">
+      <div class="md:col-span-2"><div class="text-2xl font-black text-white mb-4 font-headline">MEK GLOBAL</div><p class="text-white/60 max-w-sm">Dünya çapında güvenilir, hızlı ve sürdürülebilir lojistik çözümleri.</p></div>
+      <div class="space-y-3"><h5 class="text-primary font-bold uppercase tracking-widest text-xs mb-4">İletişim</h5><p class="text-white/60">+90 531 894 28 53</p><p class="text-white/60">emre@mekglo.com.tr</p></div>
+      <div class="space-y-3"><h5 class="text-primary font-bold uppercase tracking-widest text-xs mb-4">Yasal</h5><a class="block text-white/60 hover:text-primary transition-colors" href="#">Hizmet Şartları</a><a class="block text-white/60 hover:text-primary transition-colors" href="#">Gizlilik Politikası</a></div>
+    </div>
+    <div class="mt-16 text-center pt-8" style="border-top:1px solid rgba(53,53,52,0.1)">
+      <p class="text-white/40 text-xs uppercase tracking-[0.2em]">© 2024 MEK GLOBAL. Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+  function showPage(name) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Remove active from all nav links
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    // Show target page
+    document.getElementById('page-' + name).classList.add('active');
+    // Set active nav
+    const navEl = document.getElementById('nav-' + name);
+    if (navEl) navEl.classList.add('active');
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleContactForm(e) {
+    e.preventDefault();
+    alert('Mesajınız alındı! En kısa sürede sizinle iletişime geçeceğiz.');
+    e.target.reset();
+  }
+
+  // Init
+  showPage('home');
+</script>
+</body>
+</html>
